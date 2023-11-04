@@ -1,7 +1,11 @@
-# Cut3r Roblox
+# Cut3r Roblox [ver 0.1, upload 1]
 A Roblox module script to operate cool CSG stuff.
 
 Hello! 
+Cut3r is a work in progress! Code is messy, and bugs happen. Be sure to make pull requests if you want to fix them!
+
+
+
 ## To install this
 To install Cut3r, place Cut3r inside Tf replicated storage or server script service. (or if you have a dedicated module script folder, put the module there.)
 
