@@ -7,7 +7,7 @@ Cut3r is a work in progress! Code is messy, and bugs happen. Be sure to make pul
 
 
 ## To install this
-To install Cut3r, place Cut3r inside Tf replicated storage or server script service. (or if you have a dedicated module script folder, put the module there.)
+To install Cut3r, place Cut3r inside replicated storage or server script service. (or if you have a dedicated module script folder, put the module there.)
 
 To reference Cut3r in other scripts, type "require(game.ServerScriptService.Cut3r)" or "require(game.ReplicatedStorage.Cut3r)" or where ever else you decide to put the module. 
 ## Take note
