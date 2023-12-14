@@ -1,4 +1,4 @@
-# Cut3r Roblox [ver 0.1, upload 1]
+# Cut3r Roblox [release 2]
 A Roblox module script to operate cool CSG stuff.
 
 Hello! 
