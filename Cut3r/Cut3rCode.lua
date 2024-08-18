@@ -38,8 +38,21 @@ local constraintOptions = { -- Settings for contstraint preservation
 	weldConstraintPreserve = Enum.WeldConstraintPreserve.All
 }
 
-local function internalCSGSlice(Part:BasePart,newSlicer,Extension,UCFO,offset)
+local function joinTables(table1,table2)
+	local final = {}
+	for _,item in table1 do
+		table.insert(final,item)
+	end
+	
+	for _,item in table2 do
+		table.insert(final,item)
+	end
+	
+	return final
+end
 
+local function internalCSGSlice(Part:BasePart,newSlicer,Extension,UCFO,offset)
+	
 	if UCFO then
 		
 		newSlicer.CFrame = Part.ExtentsCFrame:ToWorldSpace(offset)
@@ -87,10 +100,11 @@ end
 
 local function internalSliceTableShatter(Parts,UseCFrameOffset:boolean,Extension:number)
 	local newSlicer = script.Slicer:Clone()
+	local sparts = Parts
 	if typeof(Parts) == "table" then
-		local returnChildren 
+		local returnChildren = {}
 		for i,Part:Part in Parts do
-			returnChildren = internalCSGSlice(Part,newSlicer,Extension,UseCFrameOffset,CFrame.fromEulerAngles(math.rad(math.random(0,360)),math.rad(math.random(0,360)),math.rad(math.random(0,360))))
+			returnChildren = joinTables(returnChildren,internalCSGSlice(Part,newSlicer,Extension,UseCFrameOffset,CFrame.fromEulerAngles(math.rad(math.random(0,360)),math.rad(math.random(0,360)),math.rad(math.random(0,360)))))
 		end
 		return returnChildren
 	else
@@ -102,18 +116,10 @@ end
 
 function Cut:Slice(Parts,UseCFrameOffset:boolean,CFrameOffset:CFrame,Extension:number)
 	local newSlicer = script.Slicer:Clone()
-
-
-
-
 	if Parts:IsA("BasePart") then
 		local Part = Parts
 		if Part:IsA("Part") or Part:IsA("UnionOperation") then
-
-
 			return internalCSGSlice(Part,newSlicer,Extension,UseCFrameOffset,CFrameOffset)
-
-
 		end
 	elseif Parts:IsA("Model") or Parts:IsA("Folder") then
 		local children = Parts:GetChildren()
@@ -155,15 +161,17 @@ end
 function Cut:Shatter(Parts:Instance,UseCFrameOffset:boolean,CFrameOffset:CFrame,Extension:number,ExtraIterations:number)
 	local newSlicer = script.Slicer:Clone()
 	local Results
-
+	
 	if Parts:IsA("BasePart") then
 		if ExtraIterations <= Settings.IterationLimit then
 			local Part = Parts
+			local sparts = {}
 			Results = internalCSGSlice(Part,newSlicer,Extension,UseCFrameOffset,CFrame.fromEulerAngles(math.rad(math.random(0,360)),math.rad(math.random(0,360)),math.rad(math.random(0,360))) + CFrameOffset.Position)
 			if Results then
-				local sparts = Results
+				sparts = Results
 				for i = 0, ExtraIterations  do
 					sparts = internalSliceTableShatter(sparts,true,Extension)
+					print(sparts)
 				end
 				return sparts
 			end
